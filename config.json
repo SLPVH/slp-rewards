@@ -1,7 +1,7 @@
 {
     "Port": 3000,
     "RestURL": "https://rest.bitcoin.com/v2/",
-    "TokenID": "",
-    "FundingAddress": "",
-    "FundingWif": ""
+    "TokenId": "bc1f1f7288f0a91cfe6f2e6bde3a581b772657512974193dbf55a10f844e0057",
+    "FundingAddress": "simpleledger:qr20x7r7efz668dvcp3ejhqrkka62saykyqpzc3e48",
+    "FundingWif": "Kz2LDM43p1NmSNJfoJppzJG9u9ZXe2N4En9EA1fG8q6zkqWxmnm8"
 }
