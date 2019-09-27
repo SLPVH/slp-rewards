@@ -40,6 +40,15 @@ export class SLPHelper {
         }
     }
 
+    async GetLastTX(address: string) : Promise<string> {
+        try {
+            const details = await this.SLP.Address.transactions(`${address}`);
+            return details.txs.length > 0 ? details.txs[0].txid : '';
+        } catch(ex) {
+            return Promise.reject(ex.message || ex.error || ex);
+        }
+    }
+
     async SendSLPTokensToAddress(
         fundingAddress: string,
         fundingWif: string,
