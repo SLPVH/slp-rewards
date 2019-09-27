@@ -21,3 +21,4 @@ RestURL: THe url of the server running a BCH REST node.
 TokenID: The ID of the token you want to use on the Reward Server
 FundingAddress: The BCH address used to fund the token for the server
 FundingWif: The BCH Private Key used to fund the token for the server
+tokensPerDollar: How many tokens someone gets per dollar. Ie if this is set to 5, and someone spends $2, they get 10 tokens

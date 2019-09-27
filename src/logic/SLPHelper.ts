@@ -64,11 +64,6 @@ export class SLPHelper {
                 tokenId: tokenId,
                 amount: amount
             }
-            console.log(data);
-
-            let ecPair = this.SLP.ECPair.fromWIF(fundingWif)
-            let cashAddress = this.SLP.ECPair.toCashAddress(ecPair)
-            console.log(cashAddress);    
             
             const txId = await this.SLP.TokenType1.send({
                 fundingAddress: fundingAddress,
