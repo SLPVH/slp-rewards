@@ -42,7 +42,6 @@ try
 app.locals.SLPHelper.GetLastTX(app.locals.Config.FundingAddress)
     .then((txId) => {
         app.locals.LastTXFundingAddress = txId;
-        console.log(txId);
     })
     .catch((err) => {
         throw new Error(err.message);
@@ -70,6 +69,13 @@ app.post('/v1/address/:address/token/send', (req, res) => {
 //Check if funding address has received a new TX
 app.get('/v1/funding/tx/check', (req, res) => {
     CheckIfFundingAddressReceivedTX.Execute(req, res);
+});
+
+//Check conversion of dollars to token amount
+app.get('/v1/dollarAmount/:dollarAmount/tokens', (req, res) => {
+    res.json(new HTTPResponse({
+        amount: parseFloat(req.params.dollarAmount) * req.app.locals.Config.tokensPerDollar
+    }));
 });
 
 // Hello world GET and POST tests

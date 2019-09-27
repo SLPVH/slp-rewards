@@ -118,7 +118,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"amount\": 10.00\n}",
+					"raw": "{\n\t\"dollarAmount\": 2.5\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -126,7 +126,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/v1/address/simpleledger:qrlsukhggdmm7x78nj6pfgvw2n4zme5dky0wt67lyt/token/send",
+					"raw": "localhost:3000/v1/address/simpleledger:qq7uvlu32yx6xdvekl9m3a0v54awptfh9sep49lvtz/token/send",
 					"host": [
 						"localhost"
 					],
@@ -134,7 +134,7 @@
 					"path": [
 						"v1",
 						"address",
-						"simpleledger:qrlsukhggdmm7x78nj6pfgvw2n4zme5dky0wt67lyt",
+						"simpleledger:qq7uvlu32yx6xdvekl9m3a0v54awptfh9sep49lvtz",
 						"token",
 						"send"
 					]
@@ -158,6 +158,27 @@
 						"funding",
 						"tx",
 						"check"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dollar to Token Conversion",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/v1/dollarAmount/2.5/tokens",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"dollarAmount",
+						"2.5",
+						"tokens"
 					]
 				}
 			},
