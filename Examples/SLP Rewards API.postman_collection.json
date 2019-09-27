@@ -67,7 +67,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/v1/address/simpleledger:qz9rtlhjhft05zgzjryge45k99e2hrwn5vsvw8art7/balance",
+					"raw": "localhost:3000/v1/address/bitcoincash:qrlsukhggdmm7x78nj6pfgvw2n4zme5dkyr4qptl64/balance",
 					"host": [
 						"localhost"
 					],
@@ -75,7 +75,7 @@
 					"path": [
 						"v1",
 						"address",
-						"simpleledger:qz9rtlhjhft05zgzjryge45k99e2hrwn5vsvw8art7",
+						"bitcoincash:qrlsukhggdmm7x78nj6pfgvw2n4zme5dkyr4qptl64",
 						"balance"
 					]
 				}
@@ -88,7 +88,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/v1/address/simpleledger:qz9rtlhjhft05zgzjryge45k99e2hrwn5vsvw8art7/token/bc1f1f7288f0a91cfe6f2e6bde3a581b772657512974193dbf55a10f844e0057/balance",
+					"raw": "localhost:3000/v1/address/bitcoincash:qrlsukhggdmm7x78nj6pfgvw2n4zme5dkyr4qptl64/token/balance",
 					"host": [
 						"localhost"
 					],
@@ -96,10 +96,68 @@
 					"path": [
 						"v1",
 						"address",
-						"simpleledger:qz9rtlhjhft05zgzjryge45k99e2hrwn5vsvw8art7",
+						"bitcoincash:qrlsukhggdmm7x78nj6pfgvw2n4zme5dkyr4qptl64",
 						"token",
-						"bc1f1f7288f0a91cfe6f2e6bde3a581b772657512974193dbf55a10f844e0057",
 						"balance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send SLP Tokens To Address",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"amount\": 10.00\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/v1/address/simpleledger:qrlsukhggdmm7x78nj6pfgvw2n4zme5dky0wt67lyt/token/send",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"address",
+						"simpleledger:qrlsukhggdmm7x78nj6pfgvw2n4zme5dky0wt67lyt",
+						"token",
+						"send"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check If Funding Address Received TX",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/v1/funding/tx/check",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"funding",
+						"tx",
+						"check"
 					]
 				}
 			},
