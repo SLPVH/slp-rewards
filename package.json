@@ -5,19 +5,18 @@
   "main": "dist/app.js",
   "scripts": {
     "start": "tsc && tslint --project ./ && node dist/app.js",
-    "startdev": "nodemon --watch src -e ts --exec \"tsc && tslint --project ./ && node dist/app.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SLPVH/slp-rewards.git"
+    "url": "git+https://github.com/MaxHastings/slp-rewards.git"
   },
   "author": "Max and Miles",
-  "license": "",
+  "license": "SEE LICENSE IN license.txt",
   "bugs": {
-    "url": "https://github.com/SLPVH/slp-rewards/issues"
+    "url": "https://github.com/MaxHastings/slp-rewards/issues"
   },
-  "homepage": "https://github.com/SLPVH/slp-rewards#readme",
+  "homepage": "https://github.com/MaxHastings/slp-rewards#readme",
   "devDependencies": {
     "@types/express": "^4.17.1"
   },
