@@ -10,15 +10,15 @@ import { HTTPResponse } from './models/http_responses/httpResponse';
 import { HelloWorldRequest } from './models/http_requests/helloWorldRequest';
 import { InvalidParametersError } from './models/InvalidParametersError';
 import { SLPHelper } from './logic/SLPHelper';
+import { SendSLPTokensToAddress } from './logic/requests/SendSLPTokensToAddress';
 import express from 'express';
 import fs from 'fs';
 
-// Load config
-// Port = the port to run the server on
-const config = JSON.parse(fs.readFileSync('config.json').toString());
-
 // Setup basic HTTP server on port
 const app = express();
+
+// Load config
+app.locals.Config = JSON.parse(fs.readFileSync('config.json').toString());
 
 // Parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -27,10 +27,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //Attempt to connect to Bitcoin REST API
-console.log(`Attempting to connect to Bitcoin REST API at 'config.RestURL'...`);
+console.log(`Attempting to connect to Bitcoin REST API at '${app.locals.Config.RestURL}'...`);
 try
 {
-    app.locals.SLPHelper = new SLPHelper(config.RestURL);
+    app.locals.SLPHelper = new SLPHelper(app.locals.Config.RestURL);
     console.log('Success!');
 } catch (ex) {
     console.error('Server cannot start, could not connect to Bitcoin REST API');
@@ -43,9 +43,14 @@ app.get('/v1/address/:address/balance', (req, res) => {
     GetBalanceOfBCHAddress.Execute(req, res);
 });
 
-// Get specific SLP token balance of address
-app.get('/v1/address/:address/token/:tokenId/balance', (req, res) => {
+// Get SLP token balance of address
+app.get('/v1/address/:address/token/balance', (req, res) => {
     GetTokenBalanceOfSLPAddress.Execute(req, res);
+});
+
+// Send SLP tokens to an address
+app.post('/v1/address/:address/token/send', (req, res) => {
+    SendSLPTokensToAddress.Execute(req, res);
 });
 
 // Hello world GET and POST tests
@@ -73,9 +78,9 @@ app.get('/', (req, res) => {
 });
 
 // Starts server with routes/port specified
-app.listen(config.Port, (err) => {
+app.listen(app.locals.Config.Port, (err) => {
   if (err) {
     return console.error(`Error starting server: ${err}`);
   }
-  return console.log(`Server is running and listening on ${config.Port}...`);
+  return console.log(`Server is running and listening on ${app.locals.Config.Port}...`);
 });

@@ -4,23 +4,24 @@ import * as express from 'express';
 import { HTTPResponse } from '../../models/http_responses/httpResponse';
 import { SLPHelper } from "../SLPHelper";
 
-export class GetTokenBalanceOfSLPAddress {
+export class SendSLPTokensToAddress {
     static Execute(req: express.Request, res: express.Response) {
         const SLPHelper = req.app.locals.SLPHelper as SLPHelper;
 
-        if (!req.params || !req.params.address) {
-            res.status(400).json(new HTTPResponse(null, 'Address not specified'));
+        if (!req.params || !req.params.address || !req.body || !req.body.amount) {
+            res.status(400).json(new HTTPResponse(null, 'Address and/or Amount not specified'));
             return;
         }
     
-        Promise.all([
-            SLPHelper.GetTokenBalanceOfSLPAddress(req.app.locals.Config.TokenId, req.params.address),
-            SLPHelper.GetSLPTokenSymbol(req.app.locals.Config.TokenId),
-        ])
-        .then(([balance, symbol]) => {
+        SLPHelper.SendSLPTokensToAddress(
+            req.app.locals.Config.FundingAddress, 
+            req.app.locals.Config.FundingWif,
+            req.params.address,
+            req.app.locals.Config.TokenId,
+            req.body.amount)
+        .then((txId) => {
             res.json(new HTTPResponse({
-                balance: balance,
-                symbol: symbol
+                txId: txId
             }));
         })
         .catch((err) => {

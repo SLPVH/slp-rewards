@@ -18,7 +18,7 @@ export class SLPHelper {
             
             return details.symbol as string;
         } catch(ex) {
-            return Promise.reject(ex.message);
+            return Promise.reject(ex.message || ex.error || ex);
         }
     } 
 
@@ -27,16 +27,52 @@ export class SLPHelper {
             const details = await this.SLP.Utils.balance(address, tokenId);
             return details.balance as number;
         } catch(ex) {
-            return Promise.reject(ex.message);
+            return Promise.reject(ex.message || ex.error || ex);
         }
     } 
 
     async GetBalanceOfBCHAddress(address: string) : Promise<number> {
         try {
-            let details = await this.SLP.Address.details(`${address}`);
-            return details.balance as number;
+            const details = await this.SLP.Address.details(`${address}`);
+            return (details.balance as number) + (details.unconfirmedBalance as number);
         } catch(ex) {
-            return Promise.reject(ex.message);
+            return Promise.reject(ex.message || ex.error || ex);
         }
-    } 
+    }
+
+    async SendSLPTokensToAddress(
+        fundingAddress: string,
+        fundingWif: string,
+        toAddress: string, 
+        tokenId: string, 
+        amount: number) : Promise<string>  {
+        try {
+            const data = {
+                fundingAddress: fundingAddress,
+                fundingWif: fundingWif,
+                tokenReceiverAddress: toAddress,
+                bchChangeReceiverAddress: this.SLP.Address.toCashAddress(fundingAddress),
+                tokenId: tokenId,
+                amount: amount
+            }
+            console.log(data);
+
+            let ecPair = this.SLP.ECPair.fromWIF(fundingWif)
+            let cashAddress = this.SLP.ECPair.toCashAddress(ecPair)
+            console.log(cashAddress);    
+            
+            const txId = await this.SLP.TokenType1.send({
+                fundingAddress: fundingAddress,
+                fundingWif: fundingWif,
+                tokenReceiverAddress: toAddress,
+                bchChangeReceiverAddress: this.SLP.Address.toCashAddress(fundingAddress),
+                tokenId: tokenId,
+                amount: amount
+            });
+            
+            return txId;
+        } catch(ex) {
+            return Promise.reject(ex.message || ex.error || ex);
+        }
+    }
 }
