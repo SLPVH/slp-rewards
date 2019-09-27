@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Shop</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/checkout/">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="py-5">
+                    <img class="d-block mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg"
+                        alt="" width="72" height="72">
+                </div>
+            </div>
+            <div class="col-8 py-5"></div>
+            <div class="col">
+                <div class="py-5">
+                    <a href="#" class="btn btn-info btn-lg cart-button">
+                        <span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <img class="center-block img-thumbnail" width="300" src="./img/sun-glasses.jpeg" alt="Sun Glasses">
+                <p>Coated Black Bear</p>
+                <p>A stylish pair of sun glasses with reflective shielding</p>
+                <p>$39.99</p>
+                <button itemid="1" type="button" class="btn btn-primary mt-2 add-button">Add to Cart</button>
+            </div>
+            <div class="col-sm">
+                    <img class="center-block img-thumbnail" width="300" src="./img/camera.jpeg" alt="Camera">
+                    <p>Vebachi Camera</p>
+                    <p>A mirrorless digital camera for professionals</p>
+                    <p>$349.99</p>
+                    <button itemid="2" type="button" class="btn btn-primary mt-2 add-button">Add to Cart</button>
+                </div>
+            <div class="col-sm">
+                One of three columns
+            </div>
+        </div>
+
+        <footer class="my-5 pt-5 text-muted text-center text-small">
+            <p class="mb-1">&copy; 2017-2018 Company Name</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Privacy</a></li>
+                <li class="list-inline-item"><a href="#">Terms</a></li>
+                <li class="list-inline-item"><a href="#">Support</a></li>
+            </ul>
+        </footer>
+    </div>
+</body>
+<!-- Cookie Library -->
+<script src="./js/js.cookie.min.js"></script>
+<script>
+var cartList = {item1: 0, item2: 0, item3: 0}
+$( ".add-button" ).click(function() {
+    var itemid = $(this).attr("itemid")
+    cartList["item" + itemid] += 1
+});
+$(".cart-button").click(function(){
+    console.log(cartList)
+    Cookies.set("item1", cartList["item1"])
+    Cookies.set("item2", cartList["item2"])
+    location.assign("./checkout_form.html");
+});
+</script>
+</html>
