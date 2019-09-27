@@ -1,0 +1,6 @@
+Useful Info:
+
+NPM version used: 6.11.3
+Node version used: 8.11.1
+
+Need to install globally: npm, node, typescript, tslint
