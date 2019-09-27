@@ -7,7 +7,9 @@
     },
     "rules": {
         "no-console": false,
-        "quotemark": ["single"]
+        "quotemark": ["single"],
+        "ordered-imports": [false],
+        "object-literal-sort-keys": [false]
     },
     "rulesDirectory": []
 }
