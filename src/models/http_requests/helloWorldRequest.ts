@@ -1,12 +1,15 @@
+import { InvalidParametersError } from "../InvalidParametersError";
+
 export class HelloWorldRequest {
-    public echo: string;
+    public data: object;
 
     constructor(obj: any) {
-        const valid = typeof obj.echo === 'string';
+        // Data validation
+        const valid = typeof obj.data === 'string';
         if (!valid) {
-            throw new TypeError('Bad Parameters');
+            throw new InvalidParametersError('Invalid Parameters');
         }
 
-        this.echo = obj.echo;
+        this.data = obj.data;
     }
 }
