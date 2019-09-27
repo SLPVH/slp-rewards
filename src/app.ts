@@ -4,6 +4,7 @@ console.log('Starting Rewards Server...');
 
 import * as bodyParser from 'body-parser';
 
+import { CheckIfFundingAddressReceivedTX } from './logic/requests/CheckIfFundingAddressReceivedTX';
 import { GetBalanceOfBCHAddress } from './logic/requests/GetBalanceOfBCHAddress';
 import { GetTokenBalanceOfSLPAddress } from './logic/requests/GetTokenBalanceOfSLPAddress';
 import { HTTPResponse } from './models/http_responses/httpResponse';
@@ -37,6 +38,19 @@ try
     throw ex;
 }
 
+//Track the last TX for demo purposes
+app.locals.SLPHelper.GetLastTX(app.locals.Config.FundingAddress)
+    .then((txId) => {
+        app.locals.LastTXFundingAddress = txId;
+        console.log(txId);
+    })
+    .catch((err) => {
+        throw new Error(err.message);
+    });
+
+//Static frontend site
+app.use(express.static('src/web'));
+
 // Specify routes
 // Get BCH balance of address
 app.get('/v1/address/:address/balance', (req, res) => {
@@ -51,6 +65,11 @@ app.get('/v1/address/:address/token/balance', (req, res) => {
 // Send SLP tokens to an address
 app.post('/v1/address/:address/token/send', (req, res) => {
     SendSLPTokensToAddress.Execute(req, res);
+});
+
+//Check if funding address has received a new TX
+app.get('/v1/funding/tx/check', (req, res) => {
+    CheckIfFundingAddressReceivedTX.Execute(req, res);
 });
 
 // Hello world GET and POST tests
