@@ -1,6 +1,6 @@
 {
     "Port": 3000,
-    "RestURL": "",
+    "RestURL": "https://rest.bitcoin.com/v2/",
     "TokenID": "",
     "FundingAddress": "",
     "FundingWif": ""

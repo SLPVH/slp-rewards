@@ -1,0 +1,110 @@
+{
+	"info": {
+		"_postman_id": "a4d6a198-c86c-4a23-913e-3e93bb3d69bd",
+		"name": "SLP Rewards",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Hello World",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000",
+					"host": [
+						"localhost"
+					],
+					"port": "3000"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hello World POST",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"data\": \"Bar!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/postTest",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"postTest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Address Balance (BCH)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/v1/address/simpleledger:qz9rtlhjhft05zgzjryge45k99e2hrwn5vsvw8art7/balance",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"address",
+						"simpleledger:qz9rtlhjhft05zgzjryge45k99e2hrwn5vsvw8art7",
+						"balance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Address Balance (SLP)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/v1/address/simpleledger:qz9rtlhjhft05zgzjryge45k99e2hrwn5vsvw8art7/token/bc1f1f7288f0a91cfe6f2e6bde3a581b772657512974193dbf55a10f844e0057/balance",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"address",
+						"simpleledger:qz9rtlhjhft05zgzjryge45k99e2hrwn5vsvw8art7",
+						"token",
+						"bc1f1f7288f0a91cfe6f2e6bde3a581b772657512974193dbf55a10f844e0057",
+						"balance"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
