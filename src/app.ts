@@ -1,10 +1,15 @@
 // Import Node modules
 
+console.log('Starting Rewards Server...');
+
 import * as bodyParser from 'body-parser';
 
+import { GetBalanceOfBCHAddress } from './logic/requests/GetBalanceOfBCHAddress';
+import { GetTokenBalanceOfSLPAddress } from './logic/requests/GetTokenBalanceOfSLPAddress';
 import { HTTPResponse } from './models/http_responses/httpResponse';
 import { HelloWorldRequest } from './models/http_requests/helloWorldRequest';
 import { InvalidParametersError } from './models/InvalidParametersError';
+import { SLPHelper } from './logic/SLPHelper';
 import express from 'express';
 import fs from 'fs';
 
@@ -21,11 +26,26 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Parse application/json
 app.use(bodyParser.json());
 
+//Attempt to connect to Bitcoin REST API
+console.log(`Attempting to connect to Bitcoin REST API at 'config.RestURL'...`);
+try
+{
+    app.locals.SLPHelper = new SLPHelper(config.RestURL);
+    console.log('Success!');
+} catch (ex) {
+    console.error('Server cannot start, could not connect to Bitcoin REST API');
+    throw ex;
+}
+
 // Specify routes
-// Get balance of address
-app.get('/v1/:address/balance', (req, res) => {
-    console.log(req.params);
-    res.sendStatus(501);
+// Get BCH balance of address
+app.get('/v1/address/:address/balance', (req, res) => {
+    GetBalanceOfBCHAddress.Execute(req, res);
+});
+
+// Get specific SLP token balance of address
+app.get('/v1/address/:address/token/:tokenId/balance', (req, res) => {
+    GetTokenBalanceOfSLPAddress.Execute(req, res);
 });
 
 // Hello world GET and POST tests
@@ -57,5 +77,5 @@ app.listen(config.Port, (err) => {
   if (err) {
     return console.error(`Error starting server: ${err}`);
   }
-  return console.log(`server is listening on ${config.Port}`);
+  return console.log(`Server is running and listening on ${config.Port}...`);
 });

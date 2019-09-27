@@ -3,6 +3,8 @@ Useful Info:
 NPM version used: 6.11.3
 Node version used: 8.11.1
 
+Windows: Will need python 2.7 installed for bitbox-sdk
+
 Need to install globally: npm, node, typescript, tslint, nodemon
 
 Don't forget to run "npm install". 
