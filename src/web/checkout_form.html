@@ -240,7 +240,13 @@ if(item1 > 0){
               + '<div>'
               +  '<h6 class="my-0">Coated Black Bear</h6>'
               +  '<small class="text-muted">A stylish pair of sun glasses with reflective shielding</small>'
-              + '<div>Quantity: ' + item1 + '</div>'
+              + '<form id="item1form">'
+              + '<div class="form-group">'
+              + '<label>Quantity</label>'
+              + '<input id="item1quantity" class="form-control" type="text" value="' + item1 + '">'
+              + '</div>'
+              + '<button type="submit" class="btn btn-primary">Update</button>'
+              + '</form>'
               +'</div>'
               + '<span class="text-muted">$39.99</span>'
               + '</li>')
@@ -248,9 +254,15 @@ if(item1 > 0){
 if(item2 > 0){
   $("#checkout-list").prepend('<li class="list-group-item d-flex justify-content-between lh-condensed">'
               + '<div>'
-              +  '<h6 class="my-0">Vebachi Camera</h6>'
-              +  '<small class="text-muted">A mirrorless digital camera for professionals</small>'
-              + '<div>Quantity: ' + item2 + '</div>'
+              +  '<h6 class="my-0">Coated Black Bear</h6>'
+              +  '<small class="text-muted">A stylish pair of sun glasses with reflective shielding</small>'
+              + '<form id="item2form">'
+              + '<div class="form-group">'
+              + '<label>Quantity</label>'
+              + '<input id="item2quantity" class="form-control" type="text" value="' + item2 + '">'
+              + '</div>'
+              + '<button type="submit" class="btn btn-primary">Update</button>'
+              + '</form>'
               +'</div>'
               + '<span class="text-muted">$349.99</span>'
               + '</li>')
@@ -264,6 +276,17 @@ if(addr){
           + '<span class="text-success">500 BB Points</span>'
           + '</li>')
 }
+
+$("#item1form").submit(function(event){
+    Cookies.set("item1", $("#item1quantity").val())
+});
+
+$("#item2form").submit(function(event){
+    Cookies.set("item2", $("#item2quantity").val())
+});
+
+$("#item1quantity").val(item1)
+$("#item2quantity").val(item2)
 
 var total = (item1 * 39.99) + (item2 * 349.99)
 

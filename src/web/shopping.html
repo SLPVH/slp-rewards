@@ -13,6 +13,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 </head>
 
 <body class="bg-light">
@@ -28,8 +30,8 @@
             <div class="col-8 py-5"></div>
             <div class="col">
                 <div class="py-5">
-                    <a href="#" class="btn btn-info btn-lg cart-button">
-                        <span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart
+                    <a href="/checkout_form.html" class="btn btn-info btn-lg cart-button">
+                        <span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart <span id="cart-quantity" class="badge badge-light">0</span>
                     </a>
                 </div>
             </div>
@@ -40,14 +42,18 @@
                 <p>Coated Black Bear</p>
                 <p>A stylish pair of sun glasses with reflective shielding</p>
                 <p>$39.99</p>
-                <button itemid="1" type="button" class="btn btn-primary mt-2 add-button">Add to Cart</button>
+                <form itemid="1" class="add-form">
+                    <button type="submit" type="button" class="btn btn-primary mt-2">Add to Cart</button>
+                </form>
             </div>
             <div class="col-sm">
                     <img class="center-block img-thumbnail" width="300" src="./img/camera.jpeg" alt="Camera">
                     <p>Vebachi Camera</p>
                     <p>A mirrorless digital camera for professionals</p>
                     <p>$349.99</p>
-                    <button itemid="2" type="button" class="btn btn-primary mt-2 add-button">Add to Cart</button>
+                    <form itemid="2" class="add-form">
+                        <button type="submit" type="button" class="btn btn-primary mt-2">Add to Cart</button>
+                    </form>
                 </div>
             <div class="col-sm">
                 One of three columns
@@ -67,16 +73,15 @@
 <!-- Cookie Library -->
 <script src="./js/js.cookie.min.js"></script>
 <script>
-var cartList = {item1: 0, item2: 0, item3: 0}
-$( ".add-button" ).click(function() {
+$( ".add-form" ).submit(function(event) {
     var itemid = $(this).attr("itemid")
-    cartList["item" + itemid] += 1
+    var quantity = Cookies.get("item" + itemid)
+    Cookies.set("item" + itemid, ++quantity)
 });
-$(".cart-button").click(function(){
-    console.log(cartList)
-    Cookies.set("item1", cartList["item1"])
-    Cookies.set("item2", cartList["item2"])
-    location.assign("./checkout_form.html");
-});
+
+var item1 = Cookies.get("item1")
+var item2 = Cookies.get("item2")
+var quantity = parseInt(item1) + parseInt(item2)
+$("#cart-quantity").html(quantity)
 </script>
 </html>
