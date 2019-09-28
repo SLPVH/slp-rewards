@@ -28,46 +28,14 @@
       <div class="col-md-4 order-md-2 mb-4">
         <h4 class="d-flex justify-content-between align-items-center mb-3">
           <span class="text-muted">Your cart</span>
-          <span class="badge badge-secondary badge-pill">3</span>
+          <span id="cart-size" class="badge badge-secondary badge-pill">3</span>
         </h4>
-        <ul class="list-group mb-3">
-          <li class="list-group-item d-flex justify-content-between lh-condensed">
-            <div>
-              <h6 class="my-0">Product name</h6>
-              <small class="text-muted">Brief description</small>
-            </div>
-            <span class="text-muted">$12</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between lh-condensed">
-            <div>
-              <h6 class="my-0">Second product</h6>
-              <small class="text-muted">Brief description</small>
-            </div>
-            <span class="text-muted">$8</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between lh-condensed">
-            <div>
-              <h6 class="my-0">Third item</h6>
-              <small class="text-muted">Brief description</small>
-            </div>
-            <span class="text-muted">$5</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between bg-light">
-            <div class="text-success">
-              <h6 class="my-0">Promo code</h6>
-              <small>EXAMPLECODE</small>
-            </div>
-            <span class="text-success">-$5</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            <span>Total (USD)</span>
-            <strong>$20</strong>
-          </li>
+        <ul id="checkout-list" class="list-group mb-3">
         </ul>
 
-        <form class="card p-2">
+        <form id="add-slp-address" class="card p-2">
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Promo code">
+            <input id="slp-address" type="text" class="form-control" placeholder="SLP Address">
             <div class="input-group-append">
               <button type="submit" class="btn btn-secondary">Redeem</button>
             </div>
@@ -76,7 +44,7 @@
       </div>
       <div class="col-md-8 order-md-1">
         <h4 class="mb-3">Billing address</h4>
-        <form class="needs-validation" novalidate>
+        <form action="/finish_checkout.html" class="needs-validation" novalidate>
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="firstName">First name</label>
@@ -255,9 +223,69 @@
 </body>
 <!-- Cookie Library -->
 <script src="./js/js.cookie.min.js"></script>
+<!-- Product List -->
+<script src="./js/products.js"></script>
 <script>
-var item1 = Cookies.get("item1")
-var item2 = Cookies.get("item2")
-console.log("Item 1 quantity = " + item1 + " Item 2 quantity = " + item2)
+
+$( "#add-slp-address" ).submit(function( event ) {
+  Cookies.set("slp-reward-address", $("#slp-address").val())
+});
+
+var addr = Cookies.get("slp-reward-address")
+
+var cartQuantity = 0
+var priceTotal = 0
+for(var i = 0; i < productList.length; i++){
+    var product = productList[i]
+    var quantity = Cookies.get("item" + product.id) || 0 
+
+    if(quantity > 0){
+      $("#checkout-list").prepend('<li class="list-group-item d-flex justify-content-between lh-condensed">'
+              + '<div>'
+              +  '<h6 class="my-0">' + product.title + '</h6>'
+              +  '<small class="text-muted">' + product.desc + '</small>'
+              + '<form itemId="' + product.id + '" class="UpdateForm">'
+              + '<div class="form-group">'
+              + '<label>Quantity</label>'
+              + '<input id="item' + product.id + '" class="form-control" type="text" value="' + quantity + '">'
+              + '</div>'
+              + '<button type="submit" class="btn btn-primary">Update</button>'
+              + '</form>'
+              +'</div>'
+              + '<span class="text-muted">' + product.price + '</span>'
+              + '</li>')
+      $("#item" + product.id).val(quantity)
+    }
+    cartQuantity += parseInt(quantity);
+    priceTotal += (product.price * quantity)
+}
+
+$(".UpdateForm").submit(function(event){
+    let id = $(this).attr("itemId")
+    Cookies.set("item" + id, $("#item" + id).val())
+});
+
+priceTotal = priceTotal.toFixed(2)
+
+var points = priceTotal * Token_Price_Multiplier
+
+points = points.toFixed(0)
+
+if(addr){
+  $("#checkout-list").append('<li class="list-group-item d-flex justify-content-between bg-light">'
+          + '<div class="text-success">'
+          + '<h6 class="my-0">SLP Reward Address</h6>'
+          + '<small style="word-break: break-all;">' + addr + '</small>'
+          + '</div>'
+          + '<span class="text-success">' + points + ' BB Points</span>'
+          + '</li>')
+}
+
+$("#checkout-list").append('<li class="list-group-item d-flex justify-content-between">'
+            + '<span>Total (USD)</span>'
+            + '<strong>$' + priceTotal + '</strong>'
+            + '</li>')
+
+$("#cart-size").html(cartQuantity)
 </script>
 </html>
