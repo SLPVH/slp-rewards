@@ -27,10 +27,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Parse application/json
 app.use(bodyParser.json());
 
-//Attempt to connect to Bitcoin REST API
+// Attempt to connect to Bitcoin REST API
 console.log(`Attempting to connect to Bitcoin REST API at '${app.locals.Config.RestURL}'...`);
-try
-{
+try {
     app.locals.SLPHelper = new SLPHelper(app.locals.Config.RestURL);
     console.log('Success!');
 } catch (ex) {
@@ -38,7 +37,7 @@ try
     throw ex;
 }
 
-//Track the last TX for demo purposes
+// Track the last TX for demo purposes
 app.locals.SLPHelper.GetLastTX(app.locals.Config.FundingAddress)
     .then((txId) => {
         app.locals.LastTXFundingAddress = txId;
@@ -47,7 +46,7 @@ app.locals.SLPHelper.GetLastTX(app.locals.Config.FundingAddress)
         throw new Error(err.message);
     });
 
-//Static frontend site
+// Static frontend site
 app.use(express.static('src/web'));
 
 // Specify routes
@@ -66,15 +65,15 @@ app.post('/v1/address/:address/token/send', (req, res) => {
     SendSLPTokensToAddress.Execute(req, res);
 });
 
-//Check if funding address has received a new TX
+// Check if funding address has received a new TX
 app.get('/v1/funding/tx/check', (req, res) => {
     CheckIfFundingAddressReceivedTX.Execute(req, res);
 });
 
-//Check conversion of dollars to token amount
+// Check conversion of dollars to token amount
 app.get('/v1/dollarAmount/:dollarAmount/tokens', (req, res) => {
     res.json(new HTTPResponse({
-        amount: parseFloat(req.params.dollarAmount) * req.app.locals.Config.tokensPerDollar
+        amount: parseFloat(req.params.dollarAmount) * req.app.locals.Config.tokensPerDollar,
     }));
 });
 

@@ -1,10 +1,10 @@
-let SLPSDK = require('slp-sdk');
+const SLPSDK = require('slp-sdk');
 
 export class SLPHelper {
     private SLP: any;
 
     constructor(restURL: string) {
-        this.SLP = new SLPSDK({ 
+        this.SLP = new SLPSDK({
             restURL: restURL 
         });
     }
