@@ -1,8 +1,0 @@
-{
-    "Port": 3000,
-    "RestURL": "https://rest.bitcoin.com/v2/",
-    "TokenId": "",
-    "FundingAddress": "",
-    "FundingWif": "",
-    "tokensPerDollar": 5
-}
