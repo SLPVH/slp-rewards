@@ -111,6 +111,8 @@ $("#complete-order-form").submit(function(event){
         'contentType' : 'application/json',
         'success' : function(data){
             alert("TXID: " + data.response.txId)
+            Cookies.remove("item1")
+            Cookies.remove("item2")
         }
     })
     event.preventDefault()
