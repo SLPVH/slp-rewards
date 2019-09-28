@@ -62,17 +62,23 @@ for(var i = 0; i < productList.length; i++){
 priceTotal = priceTotal.toFixed(2)
 $("#txId").css("visibility", "hidden");
 
-if(payment == "cc"){
+if(payment == "cc" && addr){
     $.ajax("/v1/address/" + addr + "/token/send",{
         'data': '{"dollarAmount" : ' + parseInt(priceTotal) + ' }',
         'type': 'POST',
         'processData': false,
         'contentType' : 'application/json',
         'success' : function(data){
-            $("#paymentSpinner").css("visibility", "hidden");
+            console.log(data)
             $("#txId").html("TXID: " + data.response.txId)
             $("#txId").css("visibility", "visible");
             $("#title").html("Payment Complete!")
+        },
+        'error' : function(){
+            $("#title").html("Payment Failed!")
+        },
+        'complete' : function(){
+            $("#paymentSpinner").css("visibility", "hidden");
             for(var i = 0; i < productList.length; i++){
                 var product = productList[i]
                 Cookies.remove("item" + product.id)
