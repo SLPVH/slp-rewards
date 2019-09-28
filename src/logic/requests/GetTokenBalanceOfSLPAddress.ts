@@ -5,17 +5,17 @@ import { HTTPResponse } from '../../models/http_responses/httpResponse';
 import { SLPHelper } from "../SLPHelper";
 
 export class GetTokenBalanceOfSLPAddress {
-    static Execute(req: express.Request, res: express.Response) {
-        const SLPHelper = req.app.locals.SLPHelper as SLPHelper;
+    public static Execute(req: express.Request, res: express.Response) {
+        const slpHelper = req.app.locals.SLPHelper as SLPHelper;
 
         if (!req.params || !req.params.address) {
             res.status(400).json(new HTTPResponse(null, 'Address not specified'));
             return;
         }
-    
+
         Promise.all([
-            SLPHelper.GetTokenBalanceOfSLPAddress(req.app.locals.Config.TokenId, req.params.address),
-            SLPHelper.GetSLPTokenSymbol(req.app.locals.Config.TokenId),
+            slpHelper.GetTokenBalanceOfSLPAddress(req.app.locals.Config.TokenId, req.params.address),
+            slpHelper.GetSLPTokenSymbol(req.app.locals.Config.TokenId)
         ])
         .then(([balance, symbol]) => {
             res.json(new HTTPResponse({
