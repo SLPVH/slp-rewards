@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Checkout</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/checkout/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    <div class="container">
+        <div class="py-5 text-center">
+            <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg"
+                alt="" width="72" height="72">
+            <h2 id="title">Processing Payment</h2>
+        </div>
+
+        <div id="paymentSpinner" class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div id="txId" class="d-flex justify-content-center">TXID: ---</div>
+    </div>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2017-2018 Company Name</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
+    </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</body>
+<!-- Cookie Library -->
+<script src="./js/js.cookie.min.js"></script>
+<!-- Product List -->
+<script src="./js/products.js"></script>
+<script>
+var addr = Cookies.get("slp-reward-address")
+
+var priceTotal = 0
+for(var i = 0; i < productList.length; i++){
+    var product = productList[i]
+    var quantity = Cookies.get("item" + product.id) || 0 
+    priceTotal += (product.price * quantity)
+}
+
+priceTotal = priceTotal.toFixed(2)
+$("#txId").css("visibility", "hidden");
+$.ajax("/v1/address/" + addr + "/token/send",{
+    'data': '{"dollarAmount" : ' + parseInt(priceTotal) + ' }',
+    'type': 'POST',
+    'processData': false,
+    'contentType' : 'application/json',
+    'success' : function(data){
+        $("#paymentSpinner").css("visibility", "hidden");
+        $("#txId").html("TXID: " + data.response.txId)
+        $("#txId").css("visibility", "visible");
+        $("#title").html("Payment Complete!")
+        for(var i = 0; i < productList.length; i++){
+            var product = productList[i]
+            Cookies.remove("item" + product.id)
+        }
+    }
+})
+</script>
+
+</html>
