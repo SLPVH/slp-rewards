@@ -37,6 +37,10 @@ try {
     throw ex;
 }
 
+if (!app.locals.Config.FundingAddress || !app.locals.Config.FundingWif || !app.locals.Config.TokenId) {
+    throw new Error('Please make sure FundingAddress, FundingWif, and TokenID are filled out in config.json');
+}
+
 // Track the last TX for demo purposes
 app.locals.SLPHelper.GetLastTX(app.locals.Config.FundingAddress)
     .then((txId) => {
@@ -46,7 +50,7 @@ app.locals.SLPHelper.GetLastTX(app.locals.Config.FundingAddress)
         throw new Error(err.message);
     });
 
-//Static frontend site
+// Static frontend site
 app.use(express.static('static/web'));
 
 // Specify routes
@@ -72,8 +76,12 @@ app.get('/v1/funding/tx/check', (req, res) => {
 
 // Check conversion of dollars to token amount
 app.get('/v1/dollarAmount/:dollarAmount/tokens', (req, res) => {
+    const slpHelper = req.app.locals.SLPHelper as SLPHelper;
     res.json(new HTTPResponse({
-        amount: parseFloat(req.params.dollarAmount) * req.app.locals.Config.tokensPerDollar,
+        amount: slpHelper.DollarToTokenConversion(
+            parseFloat(req.params.dollarAmount),
+            req.app.locals.Config.tokensPerDollar
+        )
     }));
 });
 
@@ -85,7 +93,7 @@ app.post('/postTest', (req, res) => {
     try {
         request = new HelloWorldRequest(req.body);
         res.json(new HTTPResponse({
-            Foo: request.data,
+            Foo: request.data
         }, null));
     } catch (ex) {
         if (ex instanceof InvalidParametersError) {
@@ -97,7 +105,7 @@ app.post('/postTest', (req, res) => {
 // Root GET request for a 'Hello World' test
 app.get('/', (req, res) => {
     res.json(new HTTPResponse({
-        HelloWorld: 'Rewards server up and running...',
+        HelloWorld: 'Rewards server up and running...'
     }, null));
 });
 
