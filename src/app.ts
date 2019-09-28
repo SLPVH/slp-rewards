@@ -46,8 +46,8 @@ app.locals.SLPHelper.GetLastTX(app.locals.Config.FundingAddress)
         throw new Error(err.message);
     });
 
-// Static frontend site
-app.use(express.static('src/web'));
+//Static frontend site
+app.use(express.static('static/web'));
 
 // Specify routes
 // Get BCH balance of address

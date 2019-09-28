@@ -15,7 +15,7 @@ export class CheckIfFundingAddressReceivedTX {
             timeoutCounter++;
             if (timeoutCounter > timeout)
             {
-                res.sendStatus(204);
+                res.sendStatus(408);
                 clearInterval(interval);
             }
 
