@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Checkout</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/checkout/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    <div class="container">
+        <div class="py-5 text-center">
+            <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg"
+                alt="" width="72" height="72">
+            <h2>Order Summary</h2>
+        </div>
+
+        <div class="row justify-content-md-center">
+            <div class="col-md-8 order-md-2 mb-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Order List</span>
+                    <span id="cart-size" class="badge badge-secondary badge-pill">3</span>
+                </h4>
+                <ul id="checkout-list" class="list-group mb-3">
+                </ul>
+                <form id="complete-order-form">
+                    <button type="submit" class="btn btn-primary">Complete Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2017-2018 Company Name</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
+    </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</body>
+<!-- Cookie Library -->
+<script src="./js/js.cookie.min.js"></script>
+<script>
+    var addr = Cookies.get("slp-reward-address")
+
+    var item1 = Cookies.get("item1")
+    var item2 = Cookies.get("item2")
+
+if(item1 > 0){
+  $("#checkout-list").prepend('<li class="list-group-item d-flex justify-content-between lh-condensed">'
+                        + '<div>'
+                        +    '<h6 class="my-0">Coated Black Bear</h6>'
+                        +    '<small class="text-muted">A stylish pair of sun glasses with reflective shielding</small>'
+                        +    '<p>Quantity: '+ item1 + '</p>'
+                        + '</div>'
+                        +'<span class="text-muted">$39.99</span>'
+                    +'</li>')
+}
+if(item2 > 0){
+    $("#checkout-list").prepend('<li class="list-group-item d-flex justify-content-between lh-condensed">'
+                        + '<div>'
+                        +    '<h6 class="my-0">Vebachi Camera</h6>'
+                        +    '<small class="text-muted">A mirrorless digital camera for professionals</small>'
+                        +    '<p>Quantity: '+ item2 + '</p>'
+                        + '</div>'
+                        +'<span class="text-muted">$349.99</span>'
+                    +'</li>')
+}
+
+var total = (item1 * 39.99) + (item2 * 349.99)
+
+total = total.toFixed(2)
+
+var points = total * 5
+
+points = points.toFixed(0)
+
+if(addr){
+  $("#checkout-list").append('<li class="list-group-item d-flex justify-content-between bg-light">'
+          + '<div class="text-success">'
+          + '<h6 class="my-0">SLP Reward Address</h6>'
+          + '<small style="word-break: break-all;">' + addr + '</small>'
+          + '</div>'
+          + '<span class="text-success">' + points + ' BB Points</span>'
+          + '</li>')
+}
+
+$("#checkout-list").append('<li class="list-group-item d-flex justify-content-between">'
+            + '<span>Total (USD)</span>'
+            + '<strong>$' + total + '</strong>'
+            + '</li>')
+
+$("#complete-order-form").submit(function(event){
+    $.ajax("/v1/address/" + addr + "/token/send",{
+        'data': '{"dollarAmount" : ' + parseInt(total) + ' }',
+        'type': 'POST',
+        'processData': false,
+        'contentType' : 'application/json',
+        'success' : function(data){
+            alert("TXID: " + data.response.txId)
+        }
+    })
+    event.preventDefault()
+})
+</script>
+
+</html>
