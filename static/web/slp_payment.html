@@ -28,12 +28,17 @@
 
     <div class="row">
       <div class="col-md-4 order-md-2 mb-4 mx-auto">
-        <p class="text-center small">simpleledger:qrt3uv558x4w4mxwjl4p5wj8ex3fgfqyts93ca80ts</p>
-        <img class="center-block"
-          src="https://chart.googleapis.com/chart?cht=qr&chl=simpleledger:qrt3uv558x4w4mxwjl4p5wj8ex3fgfqyts93ca80ts&choe=UTF-8&chs=256x256"
+        <p id="qr-text" class="text-center small">simpleledger:qr20x7r7efz668dvcp3ejhqrkka62saykyqpzc3e48</p>
+        <img id="qr" class="center-block"
+          src=""
           alt="SLP QR">
         <hr class="mb-4">
-        <div class="text-center">Waiting for payment.</div>
+        <div id="action-text" class="text-center">Waiting for payment.</div>
+        <div id="paymentSpinner" class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
         </form>
       </div>
     </div>
@@ -48,9 +53,44 @@
     </footer>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </body>
+
+<!-- Cookie Library -->
+<script src="./js/js.cookie.min.js"></script>
+<!-- Product List -->
+<script src="./js/products.js"></script>
+<script>
+  var priceTotal = 0
+  for(var i = 0; i < productList.length; i++){
+      var product = productList[i]
+      var quantity = Cookies.get("item" + product.id) || 0 
+      priceTotal += (product.price * quantity)
+  }
+
+  priceTotal = priceTotal.toFixed(2)
+
+  var points = priceTotal * Token_Price_Multiplier
+
+  points = points.toFixed(0)
+  var qrString = fundingAddress + "?amount1=" + points + "-" + tokenId
+  $("#qr-text").html(qrString)
+  $("#qr").attr("src","https://chart.googleapis.com/chart?cht=qr&chl=" + qrString + "&choe=UTF-8&chs=256x256")
+    $.ajax("/v1/funding/tx/check",{
+        'type': 'GET',
+        'processData': false,
+        'contentType' : 'application/json',
+        'success' : function(data){
+            console.log(data.response)
+            $("#action-text").html("Payment Complete!")
+            $("#paymentSpinner").css("visibility", "hidden")
+            for(var i = 0; i < productList.length; i++){
+                var product = productList[i]
+                Cookies.remove("item" + product.id)
+            }
+        }
+    })
+
+</script>
 
 </html>

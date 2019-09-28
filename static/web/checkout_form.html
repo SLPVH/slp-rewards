@@ -44,7 +44,7 @@
       </div>
       <div class="col-md-8 order-md-1">
         <h4 class="mb-3">Billing address</h4>
-        <form action="/finish_checkout.html" class="needs-validation" novalidate>
+        <form id="finish-checkout-form" action="/finish_checkout.html" class="needs-validation" novalidate>
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="firstName">First name</label>
@@ -141,14 +141,15 @@
               <label class="custom-control-label" for="credit">Credit card</label>
             </div>
             <div class="custom-control custom-radio">
-              <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-              <label class="custom-control-label" for="debit">SLP Token</label>
+              <input id="slp" name="paymentMethod" type="radio" class="custom-control-input" required>
+              <label class="custom-control-label" for="slp">SLP Token</label>
             </div>
           </div>
+          <div id="credit-card-form">
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="cc-name">Name on card</label>
-              <input type="text" class="form-control" id="cc-name" placeholder="" required>
+              <input type="text" class="form-control cc-info" id="cc-name" placeholder="" required>
               <small class="text-muted">Full name as displayed on card</small>
               <div class="invalid-feedback">
                 Name on card is required
@@ -156,7 +157,7 @@
             </div>
             <div class="col-md-6 mb-3">
               <label for="cc-number">Credit card number</label>
-              <input type="text" class="form-control" id="cc-number" placeholder="" required>
+              <input type="text" class="form-control cc-info" id="cc-number" placeholder="" required>
               <div class="invalid-feedback">
                 Credit card number is required
               </div>
@@ -165,18 +166,19 @@
           <div class="row">
             <div class="col-md-3 mb-3">
               <label for="cc-expiration">Expiration</label>
-              <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+              <input type="text" class="form-control cc-info" id="cc-expiration" placeholder="" required>
               <div class="invalid-feedback">
                 Expiration date required
               </div>
             </div>
             <div class="col-md-3 mb-3">
               <label for="cc-expiration">CVV</label>
-              <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+              <input type="text" class="form-control cc-info" id="cc-cvv" placeholder="" required>
               <div class="invalid-feedback">
                 Security code required
               </div>
             </div>
+          </div>
           </div>
           <hr class="mb-4">
           <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
@@ -272,7 +274,7 @@ var points = priceTotal * Token_Price_Multiplier
 points = points.toFixed(0)
 
 if(addr){
-  $("#checkout-list").append('<li class="list-group-item d-flex justify-content-between bg-light">'
+  $("#checkout-list").append('<li id="points-section" class="list-group-item d-flex justify-content-between bg-light">'
           + '<div class="text-success">'
           + '<h6 class="my-0">SLP Reward Address</h6>'
           + '<small style="word-break: break-all;">' + addr + '</small>'
@@ -287,5 +289,41 @@ $("#checkout-list").append('<li class="list-group-item d-flex justify-content-be
             + '</li>')
 
 $("#cart-size").html(cartQuantity)
+
+var slpChecked = $('#slp').is(":checked")
+if(slpChecked){
+  $(".cc-info").removeAttr("required")
+  $("#credit-card-form").addClass("collapse")
+  $("#points-section").css("visibility", "hidden")
+}else{
+  $("#points-section").css("visibility", "visible")
+  $("#credit-card-form").removeClass("collapse")
+  $(".cc-info").attr("required", "")
+}
+
+$("#slp").change(function(){
+  if(this.checked){
+    $("#credit-card-form").addClass("collapse")
+    $(".cc-info").removeAttr("required")
+    $("#points-section").css("visibility", "hidden")
+  }
+})
+
+$("#credit").change(function(){
+  if(this.checked){
+    $("#credit-card-form").removeClass("collapse")
+    $(".cc-info").attr("required", "")
+    $("#points-section").css("visibility", "visible")
+  }
+})
+
+$("#finish-checkout-form").submit(function(e){
+  var slpChecked = $('#slp').is(":checked")
+  if(slpChecked){
+    Cookies.set("payment", "slp")
+  }else{
+    Cookies.set("payment", "cc")
+  }
+})
 </script>
 </html>
