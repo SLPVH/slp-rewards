@@ -108,8 +108,10 @@ $("#complete-order-form").submit(function(event){
         'contentType' : 'application/json',
         'success' : function(data){
             alert("TXID: " + data.response.txId)
-            Cookies.remove("item1")
-            Cookies.remove("item2")
+            for(var i = 0; i < productList.length; i++){
+                var product = productList[i]
+                Cookies.remove("item" + product.id)
+            }
         }
     })
     event.preventDefault()
