@@ -23,17 +23,17 @@
     <div class="py-5 text-center">
       <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt=""
         width="72" height="72">
-      <h2>SLP Payment</h2>
+      <h2 id="title">Waiting for payment.</h2>
     </div>
 
     <div class="row">
       <div class="col-md-4 order-md-2 mb-4 mx-auto">
-        <p id="qr-text" class="text-center small">simpleledger:qr20x7r7efz668dvcp3ejhqrkka62saykyqpzc3e48</p>
+        <p class="text-center small">Please scan the QR code below with an SLP supported wallet to make the payment.</p>
         <img id="qr" class="center-block"
           src=""
           alt="SLP QR">
+        <p id="qr-text" class="text-center small">simpleledger:qr20x7r7efz668dvcp3ejhqrkka62saykyqpzc3e48</p>
         <hr class="mb-4">
-        <div id="action-text" class="text-center">Waiting for payment.</div>
         <div id="paymentSpinner" class="d-flex justify-content-center">
             <div class="spinner-border" role="status">
                 <span class="sr-only">Loading...</span>
@@ -82,12 +82,16 @@
         'contentType' : 'application/json',
         'success' : function(data){
             console.log(data.response)
-            $("#action-text").html("Payment Complete!")
+            $("#title").html("Payment Complete!")
             $("#paymentSpinner").css("visibility", "hidden")
             for(var i = 0; i < productList.length; i++){
                 var product = productList[i]
                 Cookies.remove("item" + product.id)
             }
+        },
+        'error' : function(){
+          $("#title").html("Did not receive payment in time!")
+          $("#paymentSpinner").css("visibility", "hidden")
         }
     })
 
