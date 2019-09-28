@@ -223,6 +223,8 @@
 </body>
 <!-- Cookie Library -->
 <script src="./js/js.cookie.min.js"></script>
+<!-- Product List -->
+<script src="./js/products.js"></script>
 <script>
 
 $( "#add-slp-address" ).submit(function( event ) {
@@ -231,48 +233,41 @@ $( "#add-slp-address" ).submit(function( event ) {
 
 var addr = Cookies.get("slp-reward-address")
 
-var item1 = Cookies.get("item1") || 0
-var item2 = Cookies.get("item2") || 0
-console.log("Item 1 quantity = " + item1 + " Item 2 quantity = " + item2)
+var cartQuantity = 0
+var priceTotal = 0
+for(var i = 0; i < productList.length; i++){
+    var product = productList[i]
+    var quantity = Cookies.get("item" + product.id) || 0 
 
-if(item1 > 0){
-  $("#checkout-list").prepend('<li class="list-group-item d-flex justify-content-between lh-condensed">'
+    if(quantity > 0){
+      $("#checkout-list").prepend('<li class="list-group-item d-flex justify-content-between lh-condensed">'
               + '<div>'
-              +  '<h6 class="my-0">Coated Black Bear</h6>'
-              +  '<small class="text-muted">A stylish pair of sun glasses with reflective shielding</small>'
-              + '<form id="item1form">'
+              +  '<h6 class="my-0">' + product.title + '</h6>'
+              +  '<small class="text-muted">' + product.desc + '</small>'
+              + '<form itemId="' + product.id + '" class="UpdateForm">'
               + '<div class="form-group">'
               + '<label>Quantity</label>'
-              + '<input id="item1quantity" class="form-control" type="text" value="' + item1 + '">'
+              + '<input id="item' + product.id + '" class="form-control" type="text" value="' + quantity + '">'
               + '</div>'
               + '<button type="submit" class="btn btn-primary">Update</button>'
               + '</form>'
               +'</div>'
-              + '<span class="text-muted">$39.99</span>'
+              + '<span class="text-muted">' + product.price + '</span>'
               + '</li>')
-}
-if(item2 > 0){
-  $("#checkout-list").prepend('<li class="list-group-item d-flex justify-content-between lh-condensed">'
-              + '<div>'
-              +  '<h6 class="my-0">Vebachi Camera</h6>'
-              +  '<small class="text-muted">A mirrorless digital camera for professionals</small>'
-              + '<form id="item2form">'
-              + '<div class="form-group">'
-              + '<label>Quantity</label>'
-              + '<input id="item2quantity" class="form-control" type="text" value="' + item2 + '">'
-              + '</div>'
-              + '<button type="submit" class="btn btn-primary">Update</button>'
-              + '</form>'
-              +'</div>'
-              + '<span class="text-muted">$349.99</span>'
-              + '</li>')
+      $("#item" + product.id).val(quantity)
+    }
+    cartQuantity += parseInt(quantity);
+    priceTotal += (product.price * quantity)
 }
 
-var total = (item1 * 39.99) + (item2 * 349.99)
+$(".UpdateForm").submit(function(event){
+    let id = $(this).attr("itemId")
+    Cookies.set("item" + id, $("#item" + id).val())
+});
 
-total = total.toFixed(2)
+priceTotal = priceTotal.toFixed(2)
 
-var points = total * 5
+var points = priceTotal * Token_Price_Multiplier
 
 points = points.toFixed(0)
 
@@ -286,22 +281,11 @@ if(addr){
           + '</li>')
 }
 
-$("#item1form").submit(function(event){
-    Cookies.set("item1", $("#item1quantity").val())
-});
-
-$("#item2form").submit(function(event){
-    Cookies.set("item2", $("#item2quantity").val())
-});
-
-$("#item1quantity").val(item1)
-$("#item2quantity").val(item2)
-
 $("#checkout-list").append('<li class="list-group-item d-flex justify-content-between">'
             + '<span>Total (USD)</span>'
-            + '<strong>$' + total + '</strong>'
+            + '<strong>$' + priceTotal + '</strong>'
             + '</li>')
 
-$("#cart-size").html(parseInt(item1) + parseInt(item2))
+$("#cart-size").html(cartQuantity)
 </script>
 </html>

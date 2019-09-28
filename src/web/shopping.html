@@ -36,28 +36,8 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm">
-                <img class="center-block img-thumbnail" width="300" src="./img/sun-glasses.jpeg" alt="Sun Glasses">
-                <p>Coated Black Bear</p>
-                <p>A stylish pair of sun glasses with reflective shielding</p>
-                <p>$39.99</p>
-                <form itemid="1" class="add-form">
-                    <button type="submit" type="button" class="btn btn-primary mt-2">Add to Cart</button>
-                </form>
-            </div>
-            <div class="col-sm">
-                    <img class="center-block img-thumbnail" width="300" src="./img/camera.jpeg" alt="Camera">
-                    <p>Vebachi Camera</p>
-                    <p>A mirrorless digital camera for professionals</p>
-                    <p>$349.99</p>
-                    <form itemid="2" class="add-form">
-                        <button type="submit" type="button" class="btn btn-primary mt-2">Add to Cart</button>
-                    </form>
-                </div>
-            <div class="col-sm">
-                One of three columns
-            </div>
+        <div id="product-list" class="row">
+
         </div>
 
         <footer class="my-5 pt-5 text-muted text-center text-small">
@@ -72,16 +52,33 @@
 </body>
 <!-- Cookie Library -->
 <script src="./js/js.cookie.min.js"></script>
+<!-- Product List -->
+<script src="./js/products.js"></script>
 <script>
+var cartQuantity = 0
+for(var i = 0; i < productList.length; i++){
+    var product = productList[i]
+
+    $("#product-list").append('<div class="col-sm">'
+                + '<img class="center-block img-thumbnail" width="300" src=' + product.image + '>'
+                + '<p>' + product.title + '</p>'
+                + '<p>' + product.desc + '</p>'
+                + '<p>$' + product.price + '</p>'
+                + '<form itemid="' + product.id + '" class="add-form">'
+                +    '<button type="submit" type="button" class="btn btn-primary mt-2">Add to Cart</button>'
+                + '</form>'
+                +'</div>')
+
+
+    var itemQuantity = Cookies.get("item" + product.id) || 0;
+    cartQuantity += parseInt(itemQuantity);
+}
+$("#cart-quantity").html(cartQuantity)
+
 $( ".add-form" ).submit(function(event) {
     var itemid = $(this).attr("itemid")
     var quantity = Cookies.get("item" + itemid) || 0 
     Cookies.set("item" + itemid, ++quantity)
 });
-
-var item1 = Cookies.get("item1") || 0
-var item2 = Cookies.get("item2") || 0
-var quantity = parseInt(item1) + parseInt(item2)
-$("#cart-quantity").html(quantity)
 </script>
 </html>
