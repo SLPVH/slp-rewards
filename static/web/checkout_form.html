@@ -274,7 +274,7 @@ var points = priceTotal * Token_Price_Multiplier
 points = points.toFixed(0)
 
 if(addr){
-  $("#checkout-list").append('<li class="list-group-item d-flex justify-content-between bg-light">'
+  $("#checkout-list").append('<li id="points-section" class="list-group-item d-flex justify-content-between bg-light">'
           + '<div class="text-success">'
           + '<h6 class="my-0">SLP Reward Address</h6>'
           + '<small style="word-break: break-all;">' + addr + '</small>'
@@ -294,7 +294,9 @@ var slpChecked = $('#slp').is(":checked")
 if(slpChecked){
   $(".cc-info").removeAttr("required")
   $("#credit-card-form").addClass("collapse")
+  $("#points-section").css("visibility", "hidden")
 }else{
+  $("#points-section").css("visibility", "visible")
   $("#credit-card-form").removeClass("collapse")
   $(".cc-info").attr("required", "")
 }
@@ -303,6 +305,7 @@ $("#slp").change(function(){
   if(this.checked){
     $("#credit-card-form").addClass("collapse")
     $(".cc-info").removeAttr("required")
+    $("#points-section").css("visibility", "hidden")
   }
 })
 
@@ -310,6 +313,7 @@ $("#credit").change(function(){
   if(this.checked){
     $("#credit-card-form").removeClass("collapse")
     $(".cc-info").attr("required", "")
+    $("#points-section").css("visibility", "visible")
   }
 })
 

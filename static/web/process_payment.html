@@ -50,6 +50,7 @@
 <script src="./js/products.js"></script>
 <script>
 var addr = Cookies.get("slp-reward-address")
+var payment = Cookies.get("payment")
 
 var priceTotal = 0
 for(var i = 0; i < productList.length; i++){
@@ -60,22 +61,25 @@ for(var i = 0; i < productList.length; i++){
 
 priceTotal = priceTotal.toFixed(2)
 $("#txId").css("visibility", "hidden");
-$.ajax("/v1/address/" + addr + "/token/send",{
-    'data': '{"dollarAmount" : ' + parseInt(priceTotal) + ' }',
-    'type': 'POST',
-    'processData': false,
-    'contentType' : 'application/json',
-    'success' : function(data){
-        $("#paymentSpinner").css("visibility", "hidden");
-        $("#txId").html("TXID: " + data.response.txId)
-        $("#txId").css("visibility", "visible");
-        $("#title").html("Payment Complete!")
-        for(var i = 0; i < productList.length; i++){
-            var product = productList[i]
-            Cookies.remove("item" + product.id)
+
+if(payment == "cc"){
+    $.ajax("/v1/address/" + addr + "/token/send",{
+        'data': '{"dollarAmount" : ' + parseInt(priceTotal) + ' }',
+        'type': 'POST',
+        'processData': false,
+        'contentType' : 'application/json',
+        'success' : function(data){
+            $("#paymentSpinner").css("visibility", "hidden");
+            $("#txId").html("TXID: " + data.response.txId)
+            $("#txId").css("visibility", "visible");
+            $("#title").html("Payment Complete!")
+            for(var i = 0; i < productList.length; i++){
+                var product = productList[i]
+                Cookies.remove("item" + product.id)
+            }
         }
-    }
-})
+    })
+}
 </script>
 
 </html>
