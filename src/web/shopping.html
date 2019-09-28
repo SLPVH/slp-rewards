@@ -75,12 +75,12 @@
 <script>
 $( ".add-form" ).submit(function(event) {
     var itemid = $(this).attr("itemid")
-    var quantity = Cookies.get("item" + itemid)
+    var quantity = Cookies.get("item" + itemid) || 0 
     Cookies.set("item" + itemid, ++quantity)
 });
 
-var item1 = Cookies.get("item1")
-var item2 = Cookies.get("item2")
+var item1 = Cookies.get("item1") || 0
+var item2 = Cookies.get("item2") || 0
 var quantity = parseInt(item1) + parseInt(item2)
 $("#cart-quantity").html(quantity)
 </script>
