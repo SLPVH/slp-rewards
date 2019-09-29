@@ -42,9 +42,15 @@ if (!app.locals.Config.FundingAddress || !app.locals.Config.FundingWif || !app.l
 }
 
 // Track the last TX for demo purposes
-app.locals.SLPHelper.GetLastTX(app.locals.Config.FundingAddress)
-    .then((txId) => {
-        app.locals.LastTXFundingAddress = txId;
+console.log('Please wait while initial balance/last txid of funding address are found...');
+Promise.all([
+    app.locals.SLPHelper.GetTokenBalanceOfSLPAddress(app.locals.Config.TokenId, app.locals.Config.FundingAddress),
+    app.locals.SLPHelper.GetLastSLPTX(app.locals.Config.TokenId, app.locals.Config.FundingAddress)
+])
+    .then(([balance, txId]) => {
+        console.log('Success! Server is now ready to accept calls.');
+        app.locals.LastFundingAddressBalance = balance;
+        app.locals.LastFundingAddressTXId = txId;
     })
     .catch((err) => {
         throw new Error(err.message);

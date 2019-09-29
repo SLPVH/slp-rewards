@@ -37,17 +37,42 @@ export class SLPHelper {
 
     public async GetBalanceOfBCHAddress(address: string): Promise<number> {
         try {
-            const details = await this.SLP.Address.details(`${address}`);
+            const details = await this.SLP.Address.details(address);
             return (details.balance as number) + (details.unconfirmedBalance as number);
         } catch (ex) {
             return Promise.reject(ex.message || ex.error || ex);
         }
     }
 
-    public async GetLastTX(address: string): Promise<string> {
+    public async GetLastSLPTX(tokenId: string, address: string): Promise<string> {
         try {
-            const details = await this.SLP.Address.transactions(`${address}`);
-            return details.txs.length > 0 ? details.txs[0].txid : '';
+            const fundingAddressBCH = this.SLP.Address.toCashAddress(address);
+            const details = await this.SLP.Address.transactions(address);
+
+            let txid = '';
+
+            // Check latest TXs for a receive of this specific SLP token
+            for (const detail of details.txs) {
+                let decoded: any;
+                try {
+                    decoded = await this.SLP.Utils.decodeOpReturn(detail.txid);
+                } catch (ex) {
+                    continue;
+                }
+                if (decoded.tokenId === tokenId && decoded.spendData && decoded.spendData.length) {
+                    for (const spendData of decoded.spendData) {
+                        if (spendData.sentTo === fundingAddressBCH) {
+                            txid = detail.txid;
+                            break;
+                        }
+                    }
+                }
+                if (txid !== '') {
+                    break;
+                }
+            }
+
+            return Promise.resolve(txid);
         } catch (ex) {
             return Promise.reject(ex.message || ex.error || ex);
         }
