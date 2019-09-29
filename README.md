@@ -25,17 +25,17 @@ You can configure the e-commerce website demo to use any SLP token! You will hav
 ### config.json:
 slp-rewards/config.json
 
-Port: The port at which to run the SLP Rewards server
+* Port: The port at which to run the SLP Rewards server
 
-RestURL: THe url of the server running a BCH REST node.
+* RestURL: THe url of the server running a BCH REST node.
 
-TokenID: The ID of the token you want to use on the Reward Server
+* TokenID: The ID of the token you want to use on the Reward Server
 
-FundingAddress: The BCH address used to fund the token for the server
+* FundingAddress: The BCH address used to fund the token for the server
 
-FundingWif: The BCH Private Key used to fund the token for the server
+* FundingWif: The BCH Private Key used to fund the token for the server
 
-tokensPerDollar: How many tokens someone gets per dollar. Ie if this is set to 5, and someone spends $2, they get 10 tokens
+* tokensPerDollar: How many tokens someone gets per dollar. Ie if this is set to 5, and someone spends $2, they get 10 tokens
 
 ```javascript
 {
@@ -51,15 +51,16 @@ tokensPerDollar: How many tokens someone gets per dollar. Ie if this is set to 5
 ### config.js:
 slp-rewards/static/web/js/config.js
 
-productList: An object array of products that will be shown on the shopping page that the customer can add to their car for purchase.
+* productList: An object array of products that will be shown on the shopping page that the customer can add to their cart
+for purchase.
 
-Token_Price_Multiplier: This should be equal to the tokensPerDollar variable in config.json
+* Token_Price_Multiplier: This should be equal to the tokensPerDollar variable in config.json
 
-fundingAddress: This should be equal to the fundingAddress in config.json
+* fundingAddress: This should be equal to the fundingAddress in config.json
 
-tokenId: This should be equal to TokenID in config.json
+* tokenId: This should be equal to TokenID in config.json
 
-tokenName: This is the name of the token you want to be displayed on the e-commerce website
+* tokenName: This is the name of the token you want to be displayed on the e-commerce website
 
 ```javascript
 let productList = [
