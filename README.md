@@ -2,7 +2,7 @@
 
 For our hackathon we built an e-commerce demo website that demonstrates how a merchant could use SLP tokens as a customer loyalty rewards program.
 
-Our demo allows visitors to purchase merchandise from the website and be rewarded with the merchants token during checkout. A returning customer can come back to the demo website to spend the token.
+Our demo allows visitors to purchase merchandise from the website and be rewarded with the merchants loyalty token during checkout. A returning customer can come back to the demo website to spend the token.
 
 ## Set Up & Installation:
 
