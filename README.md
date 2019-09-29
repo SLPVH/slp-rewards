@@ -23,6 +23,7 @@ Use "npm run startdev" to rebuild and run server everytime there is a file chang
 You can configure the e-commerce website demo to use any SLP token! You will have to provide a Token ID, funding address, and a funding wif.
 
 ### config.json:
+slp-rewards/config.json
 
 Port: The port at which to run the SLP Rewards server
 
@@ -48,6 +49,7 @@ tokensPerDollar: How many tokens someone gets per dollar. Ie if this is set to 5
 ```
 
 ### config.js:
+slp-rewards/static/web/js/config.js
 
 productList: An object array of products that will be shown on the shopping page that the customer can add to their car for purchase.
 
@@ -79,4 +81,22 @@ let tokenName = "KOLO Points"
 
 ### Screenshots
 
-TO DO: 
+Shopping page with all the products available that the customer can add to their shopping cart.
+
+![Shopping Page](/screenshots/shopping.png)
+
+Shopping cart page where the customer can enter in their SLP Address to receive the merchants loyalty token.
+
+![Shopping Cart](/screenshots/cart.png)
+
+Checkout page where the customer can review their final order.
+
+![Checkout Page](/screenshots/checkout.png)
+
+Order complete page. Informs the customer that the loyalty token has been sent to their wallet.
+
+![Order Complete](/screenshots/order-complete.png)
+
+QR loyalty token payment page. This is where the customer would be navigated to when they select the loyalty token for payment during checkout. The customer would use their SLP supported wallet to scan the QR code and send the loyalty token to the merchant for payment.
+
+![QR Token Payment](/screenshots/qr-payment.png)
