@@ -93,7 +93,7 @@ Checkout page where the customer can review their final order.
 
 ![Checkout Page](/screenshots/checkout.png)
 
-Order complete page. Informs the customer that the loyalty token has been sent to their wallet.
+Order complete page. Informs the customer that the loyalty token has been sent to their wallet. The customer is navigated to this page if they selected credit card as their method of payment during checkout.
 
 ![Order Complete](/screenshots/order-complete.png)
 
