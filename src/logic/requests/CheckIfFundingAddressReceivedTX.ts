@@ -18,10 +18,21 @@ export class CheckIfFundingAddressReceivedTX {
                 clearInterval(interval);
             }
 
-            slpHelper.GetLastTX(req.app.locals.Config.FundingAddress)
-                .then((txId) => {
-                    if (txId !== req.app.locals.LastTXFundingAddress) {
-                        req.app.locals.LastTXFundingAddress = txId;
+            Promise.all([
+                slpHelper.GetTokenBalanceOfSLPAddress(
+                    req.app.locals.Config.TokenId,
+                    req.app.locals.Config.FundingAddress
+                ),
+                slpHelper.GetLastSLPTX(
+                    req.app.locals.Config.TokenId,
+                    req.app.locals.Config.FundingAddress
+                )
+            ])
+                .then(([balance, txId]) => {
+                    if (balance > req.app.locals.LastFundingAddressBalance
+                        && txId !== req.app.locals.LastFundingAddressTXId ) {
+                        req.app.locals.LastFundingAddressBalance = balance;
+                        req.app.locals.LastFundingAddressTXId = txId;
                         res.json(new HTTPResponse({
                             txId: txId
                         }));
