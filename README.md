@@ -33,7 +33,7 @@ slp-rewards/config.json
 
 * RestURL: THe url of the server running a BCH REST node. Default should be fine, change as needed
 
-* TokenID: The ID of the token you want to use on the Reward Server. If you have a token created, put the token ID here. Otherwise, run the "Create New Token" endpoint under "Endpoints" later in the readme.
+* TokenID: The ID of the token you want to use on the Reward Server. If you have a token created, put the token ID here. Otherwise, run the "Create SLP Token" endpoint under "Endpoints" later in the readme.
 
 * FundingAddress: The address, in SLP format, used to fund the token for the server (For minting endpoint, assumption is that this address has the minting baton for the token). This address should have some BCH on it. This must be filled in before running the server.
 
@@ -79,6 +79,22 @@ Executing a GET request against "localhost:3000/v1/address/{address}/token/balan
 POST Send SLP tokens to Address:
 
 Executing a POST request against "localhost:3000/v1/address/{address}/token/send", where {address} is an address in SLP format, and the JSON body with number property "dollarAmount" filled in, will convert the dollarAmount to token amount (based on configured "tokensPerDollar"), and send that converted amount of the configured SLP tokens from the funding address to the address specified. Will return the "txId" on the response object.
+
+GET Check If Funding Address Received TX:
+
+Executing a GET request against "localhost:3000/v1/funding/tx/check" will send a request lasting up to 30 seconds to see if a new SLP incoming transaction has been received since the last time this endpoint was hit (or on server start). If after 30 seconds nothing is found, a 408 is returned. If one is found, a 200 response will respond with the "txId" on the response object of the TX that was detected.
+
+GET Dollar to Token Conversion:
+
+Executing a GET request against "localhost:3000/v1/dollarAmount/{dollarAmount}/tokens", where {dollarAmount} is a dollar mount, will return how many of the configured tokens would be sent if this amount was spent, based on the "tokensPerDollar" configured. Returns "amount" on the response object.
+
+POST Mint SLP Tokens:
+
+Executing a POST request against "localhost:3000/v1/funding/token/mint", and the JSON body with number property "amount" filled in, will mint that amount of the configured SLP token to the funding address. The funding address must have the mint baton for this to work, or an error will be returned. Returns the "txId" on the response object.
+
+POST Create SLP Token:
+
+Executing a POST request against "localhost:3000/v1/funding/token/create", and the JSON body with number "tokensPerDollar" for the conversion rate, "amount" for the initial mint, and the other properties ("decimals", "name", "symbol", "documentUri", "documentHash", which you can find more about on an SLP site explaining token configuration) will create that new token on the funding address, passing it the mint baton as well. Returns the "tokenId" of the new token created. NOTE: This updates the "TokenId" and "TokensPerDollar" in the config.json, so the server will use this as it's newly configured token in the current and future runs
 
 ### config.js (Frontend Config):
 slp-rewards/static/web/js/config.js
