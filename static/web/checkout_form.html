@@ -33,7 +33,7 @@
         <ul id="checkout-list" class="list-group mb-3">
         </ul>
 
-        <form id="add-slp-address" class="card p-2">
+        <form id="add-slp-address" class="card p-2 points-section">
           <div class="input-group">
             <input id="slp-address" type="text" class="form-control" placeholder="SLP Address">
             <div class="input-group-append">
@@ -274,7 +274,7 @@ var points = priceTotal * Token_Price_Multiplier
 points = points.toFixed(0)
 
 if(addr){
-  $("#checkout-list").append('<li id="points-section" class="list-group-item d-flex justify-content-between bg-light">'
+  $("#checkout-list").append('<li class="points-section list-group-item d-flex justify-content-between bg-light">'
           + '<div class="text-success">'
           + '<h6 class="my-0">SLP Reward Address</h6>'
           + '<small style="word-break: break-all;">' + addr + '</small>'
@@ -284,8 +284,8 @@ if(addr){
 }
 
 $("#checkout-list").append('<li class="list-group-item d-flex justify-content-between">'
-            + '<span>Total (USD)</span>'
-            + '<strong>$' + priceTotal + '</strong>'
+            + '<span id="totalTitle">Total (USD)</span>'
+            + '<strong id="totalAmount">$' + priceTotal + '</strong>'
             + '</li>')
 
 $("#cart-size").html(cartQuantity)
@@ -294,18 +294,24 @@ var slpChecked = $('#slp').is(":checked")
 if(slpChecked){
   $(".cc-info").removeAttr("required")
   $("#credit-card-form").addClass("collapse")
-  $("#points-section").css("visibility", "hidden")
+  $(".points-section").css("visibility", "hidden")
+  $("#totalTitle").html("Total (BB Points)")
+  $("#totalAmount").html(points)
 }else{
-  $("#points-section").css("visibility", "visible")
+  $(".points-section").css("visibility", "visible")
   $("#credit-card-form").removeClass("collapse")
   $(".cc-info").attr("required", "")
+  $("#totalTitle").html("Total (USD)")
+  $("#totalAmount").html("$" + priceTotal)
 }
 
 $("#slp").change(function(){
   if(this.checked){
     $("#credit-card-form").addClass("collapse")
     $(".cc-info").removeAttr("required")
-    $("#points-section").css("visibility", "hidden")
+    $(".points-section").css("visibility", "hidden")
+    $("#totalTitle").html("Total (BB Points)")
+    $("#totalAmount").html(points)
   }
 })
 
@@ -313,7 +319,9 @@ $("#credit").change(function(){
   if(this.checked){
     $("#credit-card-form").removeClass("collapse")
     $(".cc-info").attr("required", "")
-    $("#points-section").css("visibility", "visible")
+    $(".points-section").css("visibility", "visible")
+    $("#totalTitle").html("Total (USD)")
+    $("#totalAmount").html("$" + priceTotal)
   }
 })
 
