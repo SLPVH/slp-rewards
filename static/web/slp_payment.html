@@ -24,6 +24,11 @@
       <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt=""
         width="72" height="72">
       <h2 id="title">Waiting for payment.</h2>
+      <div id="paymentSpinner" class="d-flex justify-content-center">
+          <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+          </div>
+      </div>
     </div>
 
     <div class="row">
@@ -34,11 +39,6 @@
           alt="SLP QR">
         <p id="qr-text" class="text-center small">simpleledger:qr20x7r7efz668dvcp3ejhqrkka62saykyqpzc3e48</p>
         <hr class="mb-4">
-        <div id="paymentSpinner" class="d-flex justify-content-center">
-            <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
         </form>
       </div>
     </div>
