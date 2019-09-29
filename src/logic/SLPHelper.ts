@@ -78,22 +78,65 @@ export class SLPHelper {
         }
     }
 
+    public async CreateSLPToken(
+        fundingAddress: string,
+        fundingWif: string,
+        decimals: number,
+        name: string,
+        symbol: string,
+        documentUri: string,
+        documentHash: string,
+        amount: number): Promise<string> {
+            try {
+                const tokenId = await this.SLP.TokenType1.create({
+                    fundingAddress: fundingAddress,
+                    fundingWif: fundingWif,
+                    tokenReceiverAddress: fundingAddress,
+                    bchChangeReceiverAddress: this.SLP.Address.toCashAddress(fundingAddress),
+                    batonReceiverAddress: fundingAddress,
+                    decimals: decimals,
+                    name: name,
+                    symbol: symbol,
+                    documentUri: documentUri,
+                    documentHash: documentHash,
+                    initialTokenQty: amount
+                });
+
+                return tokenId;
+            } catch (ex) {
+                return Promise.reject(ex.message || ex.error || ex);
+            }
+    }
+
+    public async MintSLPTokens(
+        fundingAddress: string,
+        fundingWif: string,
+        tokenId: string,
+        amount: number): Promise<string> {
+            try {
+                const txId = await this.SLP.TokenType1.mint({
+                    fundingAddress: fundingAddress,
+                    fundingWif: fundingWif,
+                    tokenReceiverAddress: fundingAddress,
+                    bchChangeReceiverAddress: this.SLP.Address.toCashAddress(fundingAddress),
+                    batonReceiverAddress: fundingAddress,
+                    tokenId: tokenId,
+                    additionalTokenQty: amount
+                });
+
+                return txId;
+            } catch (ex) {
+                return Promise.reject(ex.message || ex.error || ex);
+            }
+    }
+
     public async SendSLPTokensToAddress(
         fundingAddress: string,
         fundingWif: string,
         toAddress: string,
         tokenId: string,
-        amount: number): Promise<string>  {
+        amount: number): Promise<string> {
         try {
-            const data = {
-                fundingAddress: fundingAddress,
-                fundingWif: fundingWif,
-                tokenReceiverAddress: toAddress,
-                bchChangeReceiverAddress: this.SLP.Address.toCashAddress(fundingAddress),
-                tokenId: tokenId,
-                amount: amount
-            };
-
             const txId = await this.SLP.TokenType1.send({
                 fundingAddress: fundingAddress,
                 fundingWif: fundingWif,
