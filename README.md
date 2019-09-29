@@ -20,6 +20,8 @@ Make sure to look at the "config.json" section below to make configuration chang
 Then "npm start" should build and run the server
 Use "npm run startdev" to rebuild and run server everytime there is a file change (*.ts files only)
 
+If the server is running, access the demo at "http://localhost:3000/shopping.html"
+
 ## Configuration
 
 You can configure the e-commerce website demo to use any SLP token! You will have to provide a Token ID, funding address, and a funding wif.
@@ -52,7 +54,31 @@ slp-rewards/config.json
 
 ### Endpoints:
 
+See "Examples/SLP Rewards API.postman_collection.json" for examples on these endpoints (Postman required)
 
+Note that the port 3000 shown here is the default. If you changed in the config.json, you'll have to replace it with your port.
+
+Return is always JSON object with 2 properties, response and err. response will be an object and err will be null when the response code is 2xx. All other codes, response will be null and err will be a string with error details.
+
+GET Hello World:
+
+Executing a GET request against "localhost:3000" should return some JSON to show the server is running.
+
+POST Hellow World:
+
+Executing a POST request against "localhost:3000/postTest" with a JSON body object, single string property of "data" with some data. Will return some JSON echoing that data.
+
+GET Address BCH Balance:
+
+Executing a GET request against "localhost:3000/v1/address/{address}/balance", where {address} is an address in BCH format, returns the BCH blanace (unconfirmed included) of the speicifc address ("balance" property on response object).
+
+GET Address SLP Balance:
+
+Executing a GET request against "localhost:3000/v1/address/{address}/token/balance", where {address} is an address in BCH format, returns the configured SLP token blanace (unconfirmed included) of the speicifc address ("balance" property on response object), along with the configured symbol ("symbol" property on response object).
+
+POST Send SLP tokens to Address:
+
+Executing a POST request against "localhost:3000/v1/address/{address}/token/send", where {address} is an address in SLP format, and the JSON body with number property "dollarAmount" filled in, will convert the dollarAmount to token amount (based on configured "tokensPerDollar"), and send that converted amount of the configured SLP tokens from the funding address to the address specified. Will return the "txId" on the response object.
 
 ### config.js (Frontend Config):
 slp-rewards/static/web/js/config.js
@@ -82,8 +108,8 @@ let productList = [
 
 let Token_Price_Multiplier = 5
 let fundingAddress = "simpleledger:qr20x7r7efz668dvcp3ejhqrkka62saykyqpzc3e48"
-let tokenId = "bc1f1f7288f0a91cfe6f2e6bde3a581b772657512974193dbf55a10f844e0057"
-let tokenName = "KOLO Points"
+let tokenId = "8cf6dbfde03d63f300b0ffe77842859d0048f8101aab3001e3ff030898673fb2"
+let tokenName = "SLP Reward Points"
 ```
 
 ### Screenshots
