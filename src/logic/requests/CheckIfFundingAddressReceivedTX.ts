@@ -5,23 +5,22 @@ import { HTTPResponse } from '../../models/http_responses/httpResponse';
 import { SLPHelper } from "../SLPHelper";
 
 export class CheckIfFundingAddressReceivedTX {
-    static Execute(req: express.Request, res: express.Response) {
-        const SLPHelper = req.app.locals.SLPHelper as SLPHelper;
+    public static Execute(req: express.Request, res: express.Response) {
+        const slpHelper = req.app.locals.SLPHelper as SLPHelper;
 
         const timeout = 30;
         let timeoutCounter = 0;
 
-        const interval = setInterval(function(){
+        const interval = setInterval(() => {
             timeoutCounter++;
-            if (timeoutCounter > timeout)
-            {
+            if (timeoutCounter > timeout) {
                 res.sendStatus(408);
                 clearInterval(interval);
             }
 
-            SLPHelper.GetLastTX(req.app.locals.Config.FundingAddress)
+            slpHelper.GetLastTX(req.app.locals.Config.FundingAddress)
                 .then((txId) => {
-                    if (txId != req.app.locals.LastTXFundingAddress) {
+                    if (txId !== req.app.locals.LastTXFundingAddress) {
                         req.app.locals.LastTXFundingAddress = txId;
                         res.json(new HTTPResponse({
                             txId: txId
