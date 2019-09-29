@@ -15,6 +15,8 @@ Need to install globally: npm, node, typescript, tslint, nodemon, bitbox-sdk
 
 Don't forget to run "npm install"!
 
+Make sure to look at the "config.json" section below to make configuration changes before running.
+
 Then "npm start" should build and run the server
 Use "npm run startdev" to rebuild and run server everytime there is a file change (*.ts files only)
 
@@ -22,20 +24,20 @@ Use "npm run startdev" to rebuild and run server everytime there is a file chang
 
 You can configure the e-commerce website demo to use any SLP token! You will have to provide a Token ID, funding address, and a funding wif.
 
-### config.json:
+### config.json (Server Config):
 slp-rewards/config.json
 
-* Port: The port at which to run the SLP Rewards server
+* Port: The port at which to run the SLP Rewards server. Default should be fine, change as needed
 
-* RestURL: THe url of the server running a BCH REST node.
+* RestURL: THe url of the server running a BCH REST node. Default should be fine, change as needed
 
-* TokenID: The ID of the token you want to use on the Reward Server
+* TokenID: The ID of the token you want to use on the Reward Server. If you have a token created, put the token ID here. Otherwise, run the "Create New Token" endpoint under "Endpoints" later in the readme.
 
-* FundingAddress: The BCH address used to fund the token for the server (For minting endpoint, assumption is that this address has the minting baton for the token)
+* FundingAddress: The address, in SLP format, used to fund the token for the server (For minting endpoint, assumption is that this address has the minting baton for the token). This address should have some BCH on it. This must be filled in before running the server.
 
-* FundingWif: The BCH Private Key used to fund the token for the server
+* FundingWif: The compressed WIF Private Key of the above address. This must be filled in before running the server.
 
-* tokensPerDollar: How many tokens someone gets per dollar. Ie if this is set to 5, and someone spends $2, they get 10 tokens
+* TokensPerDollar: How many tokens someone gets per dollar in the demo. Ie if this is set to 5, and someone spends $2, they get 10 tokens. 
 
 ```javascript
 {
@@ -48,7 +50,11 @@ slp-rewards/config.json
 }
 ```
 
-### config.js:
+### Endpoints:
+
+
+
+### config.js (Frontend Config):
 slp-rewards/static/web/js/config.js
 
 * productList: An object array of products that will be shown on the shopping page that the customer can add to their cart
