@@ -8,7 +8,7 @@ export class CheckIfFundingAddressReceivedTX {
     public static Execute(req: express.Request, res: express.Response) {
         const slpHelper = req.app.locals.SLPHelper as SLPHelper;
 
-        const timeout = 30;
+        const timeout = 10;
         let timeoutCounter = 0;
 
         const interval = setInterval(() => {
@@ -44,6 +44,6 @@ export class CheckIfFundingAddressReceivedTX {
                     clearInterval(interval);
                 });
 
-        }, 1000);
+        }, 3000);
     }
 }
