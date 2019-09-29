@@ -64,7 +64,7 @@ $("#txId").css("visibility", "hidden");
 
 if(payment == "cc" && addr){
     $.ajax("/v1/address/" + addr + "/token/send",{
-        'data': '{"dollarAmount" : ' + parseInt(priceTotal) + ' }',
+        'data': '{"dollarAmount" : ' + parseFloat(priceTotal) + ' }',
         'type': 'POST',
         'processData': false,
         'contentType' : 'application/json',
