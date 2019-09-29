@@ -14,3 +14,4 @@ let Token_Price_Multiplier = 5
 
 let fundingAddress = "simpleledger:qr20x7r7efz668dvcp3ejhqrkka62saykyqpzc3e48"
 let tokenId = "bc1f1f7288f0a91cfe6f2e6bde3a581b772657512974193dbf55a10f844e0057"
+let tokenName = "KOLO Points"
