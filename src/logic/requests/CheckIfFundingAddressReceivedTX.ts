@@ -36,9 +36,6 @@ export class CheckIfFundingAddressReceivedTX {
                 )
             ])
                 .then(([balance, txId]) => {
-                    console.log("Hello goo")
-                    console.log(req.app.locals.LastFundingAddressBalance)
-                    console.log(balance)
                     if (balance > req.app.locals.LastFundingAddressBalance
                         && txId !== req.app.locals.LastFundingAddressTXId ) {
                         req.app.locals.LastFundingAddressBalance = balance;

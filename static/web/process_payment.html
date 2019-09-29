@@ -69,7 +69,6 @@ if(payment == "cc" && addr){
         'processData': false,
         'contentType' : 'application/json',
         'success' : function(data){
-            console.log(data)
             $("#txId").html("TXID: " + data.response.txId)
             $("#txId").css("visibility", "visible");
             $("#title").html("Payment Complete!")
