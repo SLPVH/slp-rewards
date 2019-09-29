@@ -95,7 +95,7 @@ if(addr && (payment == "cc")){
           + '<h6 class="my-0">SLP Reward Address</h6>'
           + '<small style="word-break: break-all;">' + addr + '</small>'
           + '</div>'
-          + '<span class="text-success">' + points + ' BB Points</span>'
+          + '<span class="text-success">' + points + ' ' + tokenName +'</span>'
           + '</li>')
 
     $("#checkout-list").append('<li class="list-group-item d-flex justify-content-between">'
@@ -106,7 +106,7 @@ if(addr && (payment == "cc")){
     $("#complete-order-form").attr("action", "./process_payment.html")
 }else{
     $("#checkout-list").append('<li class="list-group-item d-flex justify-content-between">'
-            + '<span>Total (BB Points)</span>'
+            + '<span>Total (' + tokenName + ')</span>'
             + '<strong>' + points + '</strong>'
             + '</li>')
     $("#complete-order-form").attr("action", "./slp_payment.html")
