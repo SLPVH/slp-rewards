@@ -11,12 +11,12 @@ Node version used: 8.11.1
 
 Windows: Will need python 2.7 installed for bitbox-sdk
 
-Need to install globally: npm, node, typescript, tslint, nodemon
+Need to install globally: npm, node, typescript, tslint, nodemon, bitbox-sdk
 
-Don't forget to run "npm install". 
+Don't forget to run "npm install"!
 
 Then "npm start" should build and run the server
-Use "npm run startdev" to rebuild and run server everytime there is a file change
+Use "npm run startdev" to rebuild and run server everytime there is a file change (*.ts files only)
 
 ## Configuration
 
@@ -31,7 +31,7 @@ slp-rewards/config.json
 
 * TokenID: The ID of the token you want to use on the Reward Server
 
-* FundingAddress: The BCH address used to fund the token for the server
+* FundingAddress: The BCH address used to fund the token for the server (For minting endpoint, assumption is that this address has the minting baton for the token)
 
 * FundingWif: The BCH Private Key used to fund the token for the server
 
