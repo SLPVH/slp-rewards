@@ -5,11 +5,13 @@ console.log('Starting Rewards Server...');
 import * as bodyParser from 'body-parser';
 
 import { CheckIfFundingAddressReceivedTX } from './logic/requests/CheckIfFundingAddressReceivedTX';
+import { CreateSLPToken } from './logic/requests/CreateSLPToken';
 import { GetBalanceOfBCHAddress } from './logic/requests/GetBalanceOfBCHAddress';
 import { GetTokenBalanceOfSLPAddress } from './logic/requests/GetTokenBalanceOfSLPAddress';
 import { HTTPResponse } from './models/http_responses/httpResponse';
 import { HelloWorldRequest } from './models/http_requests/helloWorldRequest';
 import { InvalidParametersError } from './models/InvalidParametersError';
+import { MintSLPTokens } from './logic/requests/MintSLPTokens';
 import { SLPHelper } from './logic/SLPHelper';
 import { SendSLPTokensToAddress } from './logic/requests/SendSLPTokensToAddress';
 import express from 'express';
@@ -75,6 +77,16 @@ app.post('/v1/address/:address/token/send', (req, res) => {
     SendSLPTokensToAddress.Execute(req, res);
 });
 
+// Create a new SLP token to funding address in config
+app.post('/v1/funding/token/create', (req, res) => {
+    CreateSLPToken.Execute(req, res);
+});
+
+// Mint SLP tokens to a funding address
+app.post('/v1/funding/token/mint', (req, res) => {
+    MintSLPTokens.Execute(req, res);
+});
+
 // Check if funding address has received a new TX
 app.get('/v1/funding/tx/check', (req, res) => {
     CheckIfFundingAddressReceivedTX.Execute(req, res);
@@ -86,7 +98,7 @@ app.get('/v1/dollarAmount/:dollarAmount/tokens', (req, res) => {
     res.json(new HTTPResponse({
         amount: slpHelper.DollarToTokenConversion(
             parseFloat(req.params.dollarAmount),
-            req.app.locals.Config.tokensPerDollar
+            req.app.locals.Config.TokensPerDollar
         )
     }));
 });

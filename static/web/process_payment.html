@@ -64,12 +64,11 @@ $("#txId").css("visibility", "hidden");
 
 if(payment == "cc" && addr){
     $.ajax("/v1/address/" + addr + "/token/send",{
-        'data': '{"dollarAmount" : ' + parseInt(priceTotal) + ' }',
+        'data': '{"dollarAmount" : ' + parseFloat(priceTotal) + ' }',
         'type': 'POST',
         'processData': false,
         'contentType' : 'application/json',
         'success' : function(data){
-            console.log(data)
             $("#txId").html("TXID: " + data.response.txId)
             $("#txId").css("visibility", "visible");
             $("#title").html("Payment Complete!")

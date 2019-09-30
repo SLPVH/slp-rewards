@@ -118,7 +118,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"dollarAmount\": 2.5\n}",
+					"raw": "{\n\t\"dollarAmount\": 389.98\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -169,7 +169,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/v1/dollarAmount/2.5/tokens",
+					"raw": "localhost:3000/v1/dollarAmount/389.98/tokens",
 					"host": [
 						"localhost"
 					],
@@ -177,8 +177,82 @@
 					"path": [
 						"v1",
 						"dollarAmount",
-						"2.5",
+						"389.98",
 						"tokens"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mint SLP Tokens",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"amount\": 500\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/v1/funding/token/mint",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"funding",
+						"token",
+						"mint"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create SLP Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"decimals\": 2,\n\t\"name\": \"SLP Rewards\",\n\t\"symbol\": \"RWRD\",\n\t\"documentUri\": \"\",\n\t\"documentHash\": \"\",\n\t\"amount\": 10000,\n\t\"tokensPerDollar\": 10\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/v1/funding/token/create",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"funding",
+						"token",
+						"create"
 					]
 				}
 			},

@@ -8,7 +8,7 @@ export class CheckIfFundingAddressReceivedTX {
     public static Execute(req: express.Request, res: express.Response) {
         const slpHelper = req.app.locals.SLPHelper as SLPHelper;
 
-        const timeout = 30;
+        const timeout = 10;
         let timeoutCounter = 0;
 
         slpHelper.GetTokenBalanceOfSLPAddress(
@@ -36,9 +36,6 @@ export class CheckIfFundingAddressReceivedTX {
                 )
             ])
                 .then(([balance, txId]) => {
-                    console.log("Hello goo")
-                    console.log(req.app.locals.LastFundingAddressBalance)
-                    console.log(balance)
                     if (balance > req.app.locals.LastFundingAddressBalance
                         && txId !== req.app.locals.LastFundingAddressTXId ) {
                         req.app.locals.LastFundingAddressBalance = balance;
@@ -54,6 +51,6 @@ export class CheckIfFundingAddressReceivedTX {
                     clearInterval(interval);
                 });
 
-        }, 1000);
+        }, 3000);
     }
 }
