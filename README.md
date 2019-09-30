@@ -6,7 +6,7 @@ Our demo allows visitors to purchase merchandise from the website and be rewarde
 
 ## Video Demonstration
 
-Check out our video of our e-commerce demo in action!
+Check out our video to see it in action!
 
 [![Watch the video](https://img.youtube.com/vi/I3m6oswRNBo/hqdefault.jpg)](https://www.youtube.com/watch?v=I3m6oswRNBo)
 
