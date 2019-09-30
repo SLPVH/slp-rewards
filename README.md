@@ -4,6 +4,12 @@ For our hackathon we built an e-commerce demo website that demonstrates how a me
 
 Our demo allows visitors to purchase merchandise from the website and be rewarded with the merchants loyalty token during checkout. A returning customer can come back to the demo website to spend the token.
 
+## Video Demonstration
+
+Check out our video of our e-commerce demo in action!
+
+[![Watch the video](https://img.youtube.com/vi/I3m6oswRNBo/hqdefault.jpg)](https://www.youtube.com/watch?v=I3m6oswRNBo)
+
 ## Set Up & Installation:
 
 NPM version used: 6.11.3
